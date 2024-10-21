@@ -55,9 +55,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
   }
 
   void _showLoadingOverlay(IconData icon) {
-    setState(() {
-      _isLoading = true;
-    });
+
     showDialog(
       context: context,
       barrierDismissible: false,
@@ -67,9 +65,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
 
   void _dismissLoadingOverlay() {
     Navigator.of(context).pop();
-    setState(() {
-      _isLoading = false;
-    });
+
   }
 
   @override
