@@ -1,4 +1,4 @@
-# footpit
+# spotit
 
 A new Flutter project.
 
