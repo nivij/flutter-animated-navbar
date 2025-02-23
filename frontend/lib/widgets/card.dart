@@ -11,11 +11,15 @@ import 'button.dart';
 class FoodCard extends StatefulWidget {
   final List<CardModel> items;
   final Function(int) onCardSwiped;
+  final Function(IconData, bool) onButtonTap; // Add this callback
+  final Function(String) onLocationTap; // Add this callback
 
   const FoodCard({
     Key? key,
     required this.items,
     required this.onCardSwiped,
+    required this.onButtonTap,
+    required this.onLocationTap,
   }) : super(key: key);
 
   @override
@@ -28,136 +32,52 @@ class FoodCardState extends State<FoodCard> {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: _currentIndex < widget.items.length
-          ? _buildcard2(widget.items[_currentIndex])
-          : const Text('No cards available',
-              style: TextStyle(color: Colors.white)),
-    );
-  }
-
-  Widget _buildcard2(CardModel item) {
-    return Container(
-      height: 505,
-      width: 350,// 200*2
-      decoration: BoxDecoration(
-          color: Colors.black,
-          borderRadius: BorderRadius.only(
-              topRight: Radius.circular(30),
-              bottomLeft: Radius.circular(30),
-              topLeft: Radius.circular(40),
-              bottomRight: Radius.circular(10))),
-      child: Stack(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Container(
-            margin: EdgeInsets.only(right: 3,),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              border: Border.all(color: Colors.black,width: 3),
-              color: Colors.white,
-            ), // Add space above
-
-            height: 500,
-width: 350
-          ),
-          Padding(
-            padding: const EdgeInsets.only(bottom: 70,right: 5),
-            child: Center(
-
-              child: Container(height: 130*3,
-              width: 160*2,
-              decoration: BoxDecoration(
-                  color: Colors.red,
-                border: Border.all(color: Colors.black,width: 3),
-                borderRadius: BorderRadius.circular(10)
-              ),
-                child: _buildCardImage(item.image),
-            ),
-            ),
-          ),
-          _buildTitleText(item.title),
-          _buildDistanceText(),
-          // _buildCardImage(item.image),
+          _currentIndex < widget.items.length
+              ? _buildCard(widget.items[_currentIndex])
+              : const Text('No cards available',
+              style: TextStyle(color: Colors.white)),
+          const SizedBox(height: 20), // Add spacing between card and buttons
         ],
       ),
     );
   }
 
   Widget _buildCard(CardModel item) {
-    return BackdropFilter(
-      filter: ImageFilter.blur(sigmaX: 0.2, sigmaY: 0.2),
-      child: Container(
-        height: 148 * 3,
-        decoration: BoxDecoration(
-            color: Colors.black, borderRadius: BorderRadius.circular(20)),
+    return Container(
+      height: 40*9,
+      width: 540,
+      child: AspectRatio(
+        aspectRatio: 4 / 6, // Square Instagram-like ratio
         child: Card(
           elevation: 10,
           margin: EdgeInsets.symmetric(horizontal: 20),
           color: Color(0xFF343434),
           shape: RoundedRectangleBorder(
-            // side: BorderSide(color: Colors.white,width: 2),
             borderRadius: BorderRadius.circular(20),
           ),
-          child: Column(
-            children: [
-              ClipRRect(
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(20),
-                  topRight: Radius.circular(20),
-                  bottomLeft: Radius.circular(20),
-                  bottomRight: Radius.circular(20),
-                ),
-                child: Stack(
-                  children: [
-                    _buildCardImage(item.image),
-                    _buildProfileNameContainer("nivij"),
-                    _buildBottomGradientOverlay(),
-                    _buildTitleText(item.title),
-                    _buildDistanceText(),
-                    _buildInfoRow(item.foodSpot, "Additional Info"),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildProfileNameContainer(String profileName) {
-    return Container(
-      child: ClipRRect(
-        child: BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-          child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 9),
-            decoration: BoxDecoration(
-              color: Colors.black
-                  .withOpacity(0.3), // Add semi-transparent background
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(20),
+            child: Stack(
+              fit: StackFit.expand, // Make sure stack fills the available space
               children: [
-                Row(
-                  children: [
-                    CircleAvatar(
-                      backgroundColor: Colors.white,
-                      backgroundImage: AssetImage("assets/images/logo.png"),
-                    ),
-                    SizedBox(
-                      width: 10,
-                    ),
-                    Text(
-                      profileName,
-                      style: GoogleFonts.poppins(
-                        color: Colors.white,
-                        fontWeight: FontWeight.w600,
-                        fontSize: 14,
-                      ),
-                    ),
-                  ],
+                _buildCardImage(item.image),
+                // _buildProfileNameContainer("nivij"),
+                _buildBottomGradientOverlay(),
+                _buildTitleText(item.title),
+                _buildProfileNameContainer("nivij"),
+                _buildDistanceText(),
+                Positioned(
+                  bottom: 30,
+                  left: 0,
+                  right: 0,
+                  child: Container(
+                    padding: EdgeInsets.symmetric(horizontal: 20),
+                    child: _buildFloatingActionButtons(),
+                  ),
                 ),
-                _buildMoodButton(),
               ],
             ),
           ),
@@ -166,14 +86,42 @@ width: 350
     );
   }
 
-  Widget _buildCardImage(String imagePath) {
-    return Image.asset(
-        imagePath,
-      
-        fit: BoxFit.cover,
-        width: double.infinity,
-        height: double.infinity,
+  Widget _buildProfileNameContainer(String profileName) {
+    return Positioned(
+      bottom: 22*5,
+      left: 20,
+      child: Container(
+        child: Row(
+          children: [
+            CircleAvatar(
+              radius: 20,
+              backgroundColor: Colors.white,
+              backgroundImage: AssetImage("assets/images/logo.png"),
+            ),
+            SizedBox(
+              width: 10,
+            ),
+            Text(
+              profileName,
+              style: GoogleFonts.poppins(
+                color: Colors.white,
+                fontWeight: FontWeight.w600,
+                fontSize: 14,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
 
+  Widget _buildCardImage(String imagePath) {
+    return AspectRatio(
+      aspectRatio: 4 / 6, // Perfect square ratio like Instagram
+      child: Image.asset(
+        imagePath,
+        fit: BoxFit.cover,
+      ),
     );
   }
 
@@ -183,7 +131,7 @@ width: 350
       left: 0,
       right: 0,
       child: Container(
-        height: 150,
+        height: 260,
         decoration: BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.bottomCenter,
@@ -200,13 +148,14 @@ width: 350
 
   Widget _buildTitleText(String title) {
     return Positioned(
-      bottom: 40,
+      bottom: 46*4,
       left: 15,
       child: Text(
         title,
+
         style: GoogleFonts.poppins(
           fontWeight: FontWeight.bold,
-          color: Colors.black,
+          color: Colors.white,
           fontStyle: FontStyle.italic,
           fontSize: 35,
         ),
@@ -216,28 +165,14 @@ width: 350
 
   Widget _buildDistanceText() {
     return Positioned(
-      bottom: 28,
+      bottom: 40*4,
       left: 10,
       child: Text(
         "⚲  Calicut 10 km away",
         style: GoogleFonts.poppins(
-          color: Colors.black,
-          fontSize: 13,
+          color: Colors.white,
+          fontSize: 17,
         ),
-      ),
-    );
-  }
-
-  Widget _buildInfoRow(String leftText, String rightText) {
-    return Positioned(
-      bottom: 10,
-      left: 10,
-      child: Row(
-        children: [
-          _buildBlurredTextContainer(leftText),
-          const SizedBox(width: 10),
-          _buildBlurredTextContainer(rightText),
-        ],
       ),
     );
   }
@@ -276,52 +211,68 @@ width: 350
     );
   }
 
-  Widget _buildMoodButton() {
-    return AnimatedHoverButton(
-      Width: 110,
-      height: 90,
-      iconsize: 25,
-      // color: Colors.blue,
-      iconcolor: Colors.white,
-      icon: CupertinoIcons.dial,
-      text: "Mood",
-      onTap: () {
-        // Your tap handling code here
-      }, gradientColors: [Color(0XFFFDC95E),Color(0XFFFDC95E)],
+
+  // New method to build the floating action buttons
+  Widget _buildFloatingActionButtons() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        AnimatedHoverButton(
+          color: Colors.white,
+
+          iconsize: 35,
+          text: "",
+          Width: 90,
+          height: 60,
+          icon: CupertinoIcons.clear_circled_solid,
+          onTap: () {
+            widget.onButtonTap(Icons.close, false);
+            // Move to next card
+          },
+          iconcolor: Colors.black,
+        ),
+        AnimatedHoverButton(
+          color: Color(0XFF9D1F16),
+
+          iconsize: 55,
+          Width: 80,
+          height: 70,
+          icon: CupertinoIcons.location_circle_fill,
+          onTap: () {
+            if (_currentIndex < widget.items.length) {
+              final location = widget.items[_currentIndex].location;
+              if (location != null && location.isNotEmpty) {
+                widget.onLocationTap(location);
+              } else {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text('Location not available for this spot'),
+                    duration: Duration(seconds: 2),
+                  ),
+                );
+              }
+            }
+          },
+          iconcolor: Colors.white,
+          text: '',
+        ),
+        AnimatedHoverButton(
+          iconsize: 35,
+          Width: 90,
+          height: 60,
+          icon: CupertinoIcons.heart_fill,
+          onTap: () {
+            widget.onButtonTap(Icons.favorite, true);
+            // Move to next card
+          },
+          iconcolor: Colors.black,
+          text: '',
+          color: Colors.white,
+        ),
+      ],
     );
-    // Bounceable(
-    //   onTap: () {
-    //     // Implement mood button functionality here
-    //   },
-    //   child: Container(
-    //     width: 110,
-    //     height: 40,
-    //     decoration: BoxDecoration(
-    //       borderRadius: BorderRadius.circular(40),
-    //       color: AppColors.primarybuttonColor,
-    //       boxShadow: const [
-    //         BoxShadow(
-    //           color: Colors.white,
-    //           offset: Offset(1, 4),
-    //         ),
-    //       ],
-    //     ),
-    //     child: Row(
-    //       mainAxisAlignment: MainAxisAlignment.center,
-    //       children: [
-    //         Text(
-    //           "Mood",
-    //           style: GoogleFonts.righteous(
-    //             fontWeight: FontWeight.bold,
-    //             color: AppColors.primarybuttontextColor,
-    //             fontSize: 17,
-    //           ),
-    //         ),
-    //         const SizedBox(width: 8),
-    //         const Icon(CupertinoIcons.dial, size: 25),
-    //       ],
-    //     ),
-    //   ),
-    // );
   }
+
+  // Helper method to move to the next card
+
 }

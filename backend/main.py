@@ -16,22 +16,26 @@ async def init_db():
 async def startup():
     await init_db()
 
-# API to Create a User
+# ✅ Improved API to Create a User
 @app.post("/users/", response_model=UserResponse)
 async def create_user(user: UserCreate, db: AsyncSession = Depends(get_db)):
-    async with db.begin():
-        existing_user = await db.execute(select(User).where(User.google_id == user.google_id))
-        if existing_user.scalar():
-            raise HTTPException(status_code=400, detail="User already exists")
+    # Check if the user already exists
+    result = await db.execute(select(User).where(User.google_id == user.google_id))
+    existing_user = result.scalars().first()
 
-        new_user = User(**user.model_dump())
-        db.add(new_user)
-        await db.commit()
-        await db.refresh(new_user)
-        return new_user
+    if existing_user:
+        return existing_user  # ✅ Return existing user instead of raising an error
 
+    # Create new user
+    new_user = User(**user.model_dump())
+    db.add(new_user)
+
+    await db.commit()
+    await db.refresh(new_user)
+    return new_user
+
+# ✅ Fetch all users
 @app.get("/users/", response_model=list[UserResponse])
 async def get_users(db: AsyncSession = Depends(get_db)):
     result = await db.execute(select(User))
     return result.scalars().all()
-
