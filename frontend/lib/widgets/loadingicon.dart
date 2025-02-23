@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../constants/appcolot.dart';
+
 class LoadingOverlay extends StatelessWidget {
   final Animation<double> animation;
   final IconData icon;
@@ -19,7 +21,7 @@ class LoadingOverlay extends StatelessWidget {
       children: [
         // A full-screen container with a semi-transparent background
         Container(
-          color: Color(0XFF0C0C0C),// Background color with opacity
+          color:AppColors.backgroundColor// Background color with opacity
         ),
         Center(
           child:
@@ -28,7 +30,7 @@ class LoadingOverlay extends StatelessWidget {
            Icon(
               icon,
               size: 80,
-              color: Color(0XFFFAFF2A),
+              color: AppColors.primarybuttonColor,
             ),
 
         ),

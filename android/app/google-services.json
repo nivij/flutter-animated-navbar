@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "463150786121",
+    "project_id": "food-pit",
+    "storage_bucket": "food-pit.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:463150786121:android:7cd0cd174a4ec327ad0198",
+        "android_client_info": {
+          "package_name": "com.example.spotit"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAgvmZD7MVsSOREQUa08JDLAhRtHBmYKcA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

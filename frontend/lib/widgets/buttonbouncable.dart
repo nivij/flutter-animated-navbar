@@ -20,13 +20,14 @@ class BounceableButton extends StatelessWidget {
 
       onTap: onTap,
       child: Container(
-        width: 168,
-        height: 90,
+        width: 70,
+        height: 70,
         decoration: BoxDecoration(
-borderRadius: BorderRadius.circular(40),
+          shape: BoxShape.circle,
+// borderRadius: BorderRadius.circular(40),
           color: color,
         ),
-        child: Icon(icon, color: iconcolor, size: 35,),
+        child: Icon(icon, color: iconcolor, size: 25,),
       ),
     );
   }
