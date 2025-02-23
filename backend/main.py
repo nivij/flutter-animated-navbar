@@ -2,8 +2,8 @@ from fastapi import FastAPI, Depends, HTTPException
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
 from backend.database import get_db, engine, Base  # Use the correct folder name
-from models import User
-from schemas import UserCreate, UserResponse
+from backend.models import User
+from backend.schemas import UserCreate, UserResponse
 
 app = FastAPI()
 
