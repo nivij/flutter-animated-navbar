@@ -4,8 +4,8 @@ import 'package:fluttericon/linearicons_free_icons.dart';
 import 'package:fluttericon/linecons_icons.dart';
 import 'package:fluttericon/typicons_icons.dart';
 
-import '../../constants/appcolot.dart';
-import '../homepagenewui/homepagenewui.dart';
+import '../constants/appcolot.dart';
+
 
 
 
@@ -20,8 +20,8 @@ class _MainScreenState extends State<MainScreen> {
   int _expandedButtonIndex = 0;
 
   final List<Widget> _pages = [
-    HomescreenNew(),
     HomePage(),
+    SettingsPage(),
     ProfilePage(),
     SettingsPage(),
   ];

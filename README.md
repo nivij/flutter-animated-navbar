@@ -1,16 +1,37 @@
-# spotit
+# Custom Bottom Navigation Bar
 
-A new Flutter project.
+A Flutter project demonstrating a custom bottom navigation bar UI component.
 
-## Getting Started
+## 🔧 Overview
 
-This project is a starting point for a Flutter application.
+This project showcases how to implement a **custom bottom navigation bar** using Flutter, with animated transitions and customizable design — useful for apps like SpotIt or any Flutter application needing a unique nav bar.
 
-A few resources to get you started if this is your first Flutter project:
+## 🎯 Features
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+- Fully customizable bottom navigation bar
+- Animated icon and text transitions
+- Dark-themed UI (compatible with modern designs)
+- Easily extendable with custom widgets and logic
+## 🖼 Preview
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+![Custom NavBar Preview](assets/git/bottomnavbar_preview.gif)
+
+### Static Screenshot
+
+![Custom NavBar Screenshot](assets/git/bottomnavbar.png)
+
+
+## 🛠 Getting Started
+
+### Prerequisites
+
+- Flutter SDK installed ([Install Flutter](https://docs.flutter.dev/get-started/install))
+- Android Studio / VS Code
+- Emulator or physical device for testing
+
+### Installation
+
+1. Clone the repo:
+   ```bash
+   git clone https://github.com/your-username/custom-navbar.git
+   cd custom-navbar
