@@ -29,9 +29,4 @@ This project showcases how to implement a **custom bottom navigation bar** using
 - Android Studio / VS Code
 - Emulator or physical device for testing
 
-### Installation
 
-1. Clone the repo:
-   ```bash
-   git clone https://github.com/your-username/custom-navbar.git
-   cd custom-navbar
